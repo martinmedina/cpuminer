@@ -194,6 +194,7 @@ extern struct work_restart *work_restart;
 #define JSON_RPC_QUIET_404	(1 << 1)
 
 extern void applog(int prio, const char *fmt, ...);
+extern void applog_to(int prio, FILE * to, const char *fmt, ...);
 extern json_t *json_rpc_call(CURL *curl, const char *url, const char *userpass,
 	const char *rpc_req, int *curl_err, int flags);
 void memrev(unsigned char *p, size_t len);
