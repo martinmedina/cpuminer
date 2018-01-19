@@ -777,7 +777,19 @@ bool fulltest(const uint32_t *hash, const uint32_t *target)
 {
 	int i;
 	bool rc = true;
-	
+
+    uint32_t hash_be[8], target_be[8];
+    char hash_str[65], target_str[65];
+
+    for (i = 0; i < 8; i++) {
+      be32enc(hash_be + i, hash[7 - i]);
+      be32enc(target_be + i, target[7 - i]);
+    }
+    bin2hex(hash_str, (unsigned char *)hash_be, 32);
+    bin2hex(target_str, (unsigned char *)target_be, 32);
+
+    applog_to(LOG_INFO, stdout, "Hash: %s", hash_str);
+
 	for (i = 7; i >= 0; i--) {
 		if (hash[i] > target[i]) {
 			rc = false;
