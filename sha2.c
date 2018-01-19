@@ -596,14 +596,16 @@ int scanhash_sha256d(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 	const uint32_t Htarg = ptarget[7];
 	
 #ifdef HAVE_SHA256_8WAY
-	if (sha256_use_8way())
-		return scanhash_sha256d_8way(thr_id, pdata, ptarget,
-			max_nonce, hashes_done);
+	if (sha256_use_8way()) {
+//        applog(LOG_INFO, "-------- HAVE_SHA256_8WAY");
+		return scanhash_sha256d_8way(thr_id, pdata, ptarget, max_nonce, hashes_done);
+    }
 #endif
 #ifdef HAVE_SHA256_4WAY
-	if (sha256_use_4way())
-		return scanhash_sha256d_4way(thr_id, pdata, ptarget,
-			max_nonce, hashes_done);
+	if (sha256_use_4way()) {
+//        applog(LOG_INFO, "-------- HAVE_SHA256_4WAY");
+        return scanhash_sha256d_4way(thr_id, pdata, ptarget, max_nonce, hashes_done);
+    }
 #endif
 	
 	memcpy(data, pdata + 16, 64);
