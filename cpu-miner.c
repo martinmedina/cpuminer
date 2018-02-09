@@ -1177,8 +1177,9 @@ static void *miner_thread(void *userdata)
 			work_free(&work);
 			work_copy(&work, &g_work);
 			work.data[19] = 0xffffffffU / opt_n_threads * thr_id;
-		} else
+		} else {
 			work.data[19]++;
+		}
 		pthread_mutex_unlock(&g_work_lock);
 		work_restart[thr_id].restart = 0;
 		
@@ -1199,29 +1200,30 @@ static void *miner_thread(void *userdata)
 				break;
 			}
 		}
-		if (work.data[19] + max64 > end_nonce)
+		if (work.data[19] + max64 > end_nonce) {
 			max_nonce = end_nonce;
-		else
+		} else {
 			max_nonce = work.data[19] + max64;
+		}
 		
 		hashes_done = 0;
 		gettimeofday(&tv_start, NULL);
 
 		/* scan nonces for a proof-of-work hash */
 		switch (opt_algo) {
-		case ALGO_SCRYPT:
-			rc = scanhash_scrypt(thr_id, work.data, scratchbuf, work.target,
-			                     max_nonce, &hashes_done, opt_scrypt_n);
-			break;
+      case ALGO_SCRYPT:
+        rc = scanhash_scrypt(thr_id, work.data, scratchbuf, work.target,
+                             max_nonce, &hashes_done, opt_scrypt_n);
+        break;
 
-		case ALGO_SHA256D:
-			rc = scanhash_sha256d(thr_id, work.data, work.target,
-			                      max_nonce, &hashes_done);
-			break;
+      case ALGO_SHA256D:
+        rc = scanhash_sha256d(thr_id, work.data, work.target,
+                              max_nonce, &hashes_done);
+        break;
 
-		default:
-			/* should never happen */
-			goto out;
+      default:
+        /* should never happen */
+        goto out;
 		}
 
 		/* record scanhash elapsed time */
