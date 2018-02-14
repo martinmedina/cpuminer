@@ -1247,7 +1247,7 @@ static void *miner_thread(void *userdata)
 				hashrate += thr_hashrates[i];
 			if (i == opt_n_threads) {
 				sprintf(s, hashrate >= 1e6 ? "%.0f" : "%.2f", 1e-3 * hashrate);
-				applog(LOG_INFO, "Total: %s khash/s", s);
+        applog_to(LOG_INFO, stdout, "Total: %s khash/s", s);
 			}
 		}
 
