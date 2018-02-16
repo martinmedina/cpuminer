@@ -788,7 +788,7 @@ bool fulltest(const uint32_t *hash, const uint32_t *target)
     bin2hex(hash_str, (unsigned char *)hash_be, 32);
     bin2hex(target_str, (unsigned char *)target_be, 32);
 
-//    applog_to(LOG_INFO, stdout, "Hash: %s", hash_str);
+    applog_to(LOG_INFO, stdout, "Hash: %s", hash_str);
 
 	for (i = 7; i >= 0; i--) {
 		if (hash[i] > target[i]) {
